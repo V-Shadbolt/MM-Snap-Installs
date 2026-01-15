@@ -1,35 +1,31 @@
 <!DOCTYPE html>
 <html>
-<body style="margin:0; padding:20px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: transparent;
+      color: #6B6B6B;
+    }
+    .number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0D67FE;
+    }
+  </style>
+</head>
+<body>
   <div id="installs">Loading...</div>
   <script>
-    // Detect if dark mode is enabled
-    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const textColor = isDarkMode ? '#FFFFFF' : '#37352F';
-    const bgColor = isDarkMode ? '#191919' : '#FFFFFF';
-    
-    // Apply background color
-    document.body.style.backgroundColor = bgColor;
-    
-    // Fetch and display install count
     fetch('https://snaps.metamask.io/page-data/snap/npm/unstoppabledomains/unstoppable-resolution-snap/page-data.json')
       .then(r => r.json())
       .then(data => {
-        const installs = data.result.data.snap.installs;
         document.getElementById('installs').innerHTML = 
-          `<div style="color:${textColor};">
-            <strong>Unstoppable Snap Installs:</strong> 
-            <span style="font-size:24px; font-weight:bold; color:#0D67FE;">${installs.toLocaleString()}</span>
-          </div>`;
+          `<strong>Unstoppable Snap Installs:</strong><br>
+           <span class="number">${data.result.data.snap.installs.toLocaleString()}</span>`;
       });
-    
-    // Listen for theme changes and update dynamically
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-      const newTextColor = e.matches ? '#FFFFFF' : '#37352F';
-      const newBgColor = e.matches ? '#191919' : '#FFFFFF';
-      document.body.style.backgroundColor = newBgColor;
-      document.getElementById('installs').style.color = newTextColor;
-    });
   </script>
 </body>
 </html>
