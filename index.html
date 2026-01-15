@@ -1,15 +1,35 @@
 <!DOCTYPE html>
 <html>
-<body style="margin:0; padding:20px; font-family:sans-serif;">
+<body style="margin:0; padding:20px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
   <div id="installs">Loading...</div>
   <script>
+    // Detect if dark mode is enabled
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const textColor = isDarkMode ? '#FFFFFF' : '#37352F';
+    const bgColor = isDarkMode ? '#191919' : '#FFFFFF';
+    
+    // Apply background color
+    document.body.style.backgroundColor = bgColor;
+    
+    // Fetch and display install count
     fetch('https://snaps.metamask.io/page-data/snap/npm/unstoppabledomains/unstoppable-resolution-snap/page-data.json')
       .then(r => r.json())
       .then(data => {
         const installs = data.result.data.snap.installs;
         document.getElementById('installs').innerHTML = 
-          `<h2>Unstoppable Snap Installs: ${installs.toLocaleString()}</h2>`;
+          `<div style="color:${textColor};">
+            <strong>Unstoppable Snap Installs:</strong> 
+            <span style="font-size:24px; font-weight:bold; color:#0D67FE;">${installs.toLocaleString()}</span>
+          </div>`;
       });
+    
+    // Listen for theme changes and update dynamically
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      const newTextColor = e.matches ? '#FFFFFF' : '#37352F';
+      const newBgColor = e.matches ? '#191919' : '#FFFFFF';
+      document.body.style.backgroundColor = newBgColor;
+      document.getElementById('installs').style.color = newTextColor;
+    });
   </script>
 </body>
 </html>
