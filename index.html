@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0; padding:20px; font-family:sans-serif;">
+  <div id="installs">Loading...</div>
+  <script>
+    fetch('https://snaps.metamask.io/page-data/snap/npm/unstoppabledomains/unstoppable-resolution-snap/page-data.json')
+      .then(r => r.json())
+      .then(data => {
+        const installs = data.result.data.snap.installs;
+        document.getElementById('installs').innerHTML = 
+          `<h2>Unstoppable Snap Installs: ${installs.toLocaleString()}</h2>`;
+      });
+  </script>
+</body>
+</html>
